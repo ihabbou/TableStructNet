@@ -1,4 +1,23 @@
 
+
+class Table: 
+    def __init__(self):
+        self.cells = []
+    
+    def __str__(self):
+        return "table_id="+self.id+", \n"+\
+            f"table_coords={self.coords}, \n"+\
+            f"table_cells={len(self.cells)}: \n"+\
+            "\n".join([str(cell) for cell in self.cells])+"\n"
+
+class Cell:
+    def __init__(self):
+        pass
+    def __str__(self):
+        return "\tcell_id="+self.id+", \n"+\
+            f"\tcell_coords={self.coords}, \n"+\
+            f"\tcell_location={self.location} \n"
+
 def parse_tables_from_xml(xml_path):
     """Parses the ICDAR2019 xml annotation into a list of objects.
 
