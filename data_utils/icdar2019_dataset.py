@@ -19,8 +19,9 @@ class ICDAR2019Dataset(CustomDataset):
     def load_annotations(self, ann_file):
         cat2label = {k: i for i, k in enumerate(self.CLASSES)}
         # load image list from file
+        # TODO fix extention
         image_list = [osp.splitext(osp.basename(fn))[0] 
-                        for fn in glob(self.ann_file+'*.jpg')]
+                        for fn in glob(osp.join(self.ann_file, '*.jpg'))]
 
         
         data_infos = []
