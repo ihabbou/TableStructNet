@@ -13,6 +13,7 @@ class Table:
                 max(self.coords[1][1], self.coords[2][1])
         bbox = bounds[0], bounds[1], \
                 bounds[2] - bounds[0], bounds[3] - bounds[1]
+        self.bounds = bounds # TODO: rename to poly
         self.bbox = bbox
         return bbox
     
@@ -44,6 +45,7 @@ class Cell:
                 max(self.coords[1][1], self.coords[2][1])
         bbox = bounds[0], bounds[1], \
                 bounds[2] - bounds[0], bounds[3] - bounds[1]
+        self.bounds = bounds # TODO: rename to poly
         self.bbox = bbox
         return bbox
     
@@ -81,9 +83,12 @@ def parse_tables_from_xml(xml_path):
 
     for table in tablelist:
         table_obj = Table()
-
-        table_id = table.attributes['id'].value
-        table_obj.id = table_id
+        
+        try:
+            table_id = table.attributes['id'].value
+            table_obj.id = table_id
+        except:
+            table_obj.id = -1
 
         coords = [node for node in table.childNodes 
                     if node.nodeType == table.ELEMENT_NODE][0].attributes["points"].value
@@ -94,8 +99,12 @@ def parse_tables_from_xml(xml_path):
 
         for cell in table.getElementsByTagName("cell"):
             cell_obj = Cell()
-            cell_id = cell.attributes['id'].value
-            cell_obj.id = cell_id
+            
+            try:
+                cell_id = cell.attributes['id'].value
+                cell_obj.id = cell_id
+            except:
+                cell_obj.id = -1
 
             #start_col, start_row, end_col, end_row
             location_start = \
