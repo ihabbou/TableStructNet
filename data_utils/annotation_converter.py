@@ -4,7 +4,7 @@ import mmcv
 from glob import glob
 from annotation_loader import parse_tables_from_xml
 
-img_exts = [".jpg", ".jpeg", ".png", ".tiff"]
+img_exts = [".bmp", ".jpg", ".jpeg", ".png", ".tiff"]
 
 #https://mmdetection.readthedocs.io/en/latest/2_new_data_model.html?highlight=coco#coco-annotation-format
 #or https://github.com/open-mmlab/mmdetection/tree/master/tools/convert_datasets
@@ -80,7 +80,7 @@ def restructure_ICDAR2019_dataset(root, out_dir, track="TRACKA", year="2014"):
 
     print("Moving train images...")
     train_img_dest = osp.join(out_dir, f"train{year}")
-    os.makedirs(train_img_dest, exist_ok=True)    
+    os.makedirs(train_img_dest, exist_ok=True)
     train_img_list = [fn for fn in glob(osp.join(train_img_prefix, '*.*')) if osp.splitext(fn.lower())[1] in img_exts]
     for fn in mmcv.track_iter_progress(train_img_list):
         os.rename(fn, osp.join(train_img_dest, osp.basename(fn)))
@@ -100,7 +100,9 @@ def restructure_ICDAR2019_dataset(root, out_dir, track="TRACKA", year="2014"):
 
     print("Moving val images...")
     val_img_dest = osp.join(out_dir, f"val{year}")
-    os.makedirs(val_img_dest, exist_ok=True)    
+    os.makedirs(val_img_dest, exist_ok=True)
     val_img_list = [fn for fn in glob(osp.join(val_img_prefix, '*.*')) if osp.splitext(fn.lower())[1] in img_exts]
     for fn in mmcv.track_iter_progress(val_img_list):
         os.rename(fn, osp.join(val_img_dest, osp.basename(fn)))
+    
+    os.makedirs(osp.join(out_dir, "logs"), exist_ok=True)
